@@ -1,11 +1,45 @@
 const productService = require('../services/product-service')
 
-const getAll = (req, res, next) => {
-	const data = productService.getAll()
-	return res.send({
-		status: 'success',
-		data,
-	})
+const getAll = async (req, res, next) => {
+	try {
+		const data = await productService.getAll()
+		return res.send({
+			status: 'success',
+			data,
+		})
+	} catch (error) {
+		next(error)
+	}
 }
 
-module.exports = { getAll }
+const create = async (req, res, next) => {
+	try {
+		const admin_id = req.user._id
+		const data = await productService.create(req.body, admin_id)
+
+		return res.send({
+			status: 'success',
+			data,
+		})
+	} catch (error) {
+		next(error)
+	}
+}
+
+const update = async (req, res, next) => {
+	try {
+		const admin_id = req.user._id.toString()
+		const product_id = req.params.id
+
+		const data = await productService.update(req.body, product_id, admin_id)
+
+		return res.send({
+			status: 'success',
+			data,
+		})
+	} catch (error) {
+		next(error)
+	}
+}
+
+module.exports = { getAll, create, update }

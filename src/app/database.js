@@ -1,7 +1,8 @@
-const { PrismaClient } = require('@prisma/client')
+const mongoose = require('mongoose')
 
-const prismaClient = new PrismaClient()
+const { Mongodb } = require('../utils/config')
 
-module.exports = {
-	prismaClient,
-}
+mongoose.connect(Mongodb.url, {
+	useNewUrlParser: true,
+	useUnifiedTopology: true,
+})

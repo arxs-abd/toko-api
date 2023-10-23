@@ -2,9 +2,20 @@ const express = require('express')
 
 const router = new express.Router()
 
-// MIDDLEWARE
-// router.use(authenticate)
+// CONTROLLER
+const adminController = require('../controller/admin-controller')
+const productController = require('../controller/product-controller')
 
-module.exports = {
-	router,
-}
+// MIDDLEWARE
+const { authenticate } = require('../middleware/auth-middleware')
+
+// MIDDLEWARE
+router.use(authenticate)
+
+// ROUTER
+router.get('/admin', adminController.getAll)
+
+router.post('/product', productController.create)
+router.put('/product/:id', productController.update)
+
+module.exports = router

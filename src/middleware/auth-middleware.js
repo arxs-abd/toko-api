@@ -1,26 +1,28 @@
-const { prismaClient } = require('../app/database')
+const Admin = require('../models/admins-model')
 
 const authenticate = async (req, res, next) => {
-	const token = req.get('Authorization')
+	// Get Token
+	const token = req.get('Authorization') || req.cookies.token
+
+	// Check Token Is Existed
 	if (!token)
 		return res.status(401).send({
 			status: 'fail',
-			msg: 'Token tidak ditemukan',
+			msg: 'Token Tidak Ditemukan',
 		})
 
-	// Find User by Token
-	const user = await prismaClient.user_ShareNote.findFirst({
-		where: {
-			token,
-		},
+	// Find Token and Check In Database
+	const user = await Admin.findOne({
+		token,
 	})
-
-	if (!user)
+	if (!user) {
 		return res.status(401).send({
 			status: 'fail',
-			msg: 'Token tidak valid',
+			msg: 'Token Yang Digunakan Tidak Valid',
 		})
+	}
 
+	// Set User in Request
 	req.user = user
 	next()
 }
