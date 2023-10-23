@@ -21,40 +21,20 @@ const getAll = async (req, res, next) => {
 	})
 }
 
-const login = async (req, res, next) => {
-	try {
-		const data = await service.login(req.body)
-
-		// Set Token In The Cookies
-		res.cookie('token', data.token)
-
-		return res.status(200).send({
-			status: 'success',
-			data,
-		})
-	} catch (error) {
-		next(error)
-	}
+const getAdminById = (req, res, next) => {
+	const id = adminService.getAdminById()
+	return res.send({
+		status: 'success',
+		id,
+	})
 }
 
-const register = async (req, res, next) => {
-	try {
-		const data = await service.register(req.body)
-
-		return res.status(201).send({
-			status: 'success',
-			data,
-		})
-	} catch (error) {
-		next(error)
-	}
+const createNewAdmin = (req, res, next) => {
+	const newAdmin = adminService.createNewAdmin()
+	return res.send({
+		status: 'success',
+		newAdmin,
+	})
 }
 
-const logout = async (req, res, next) => {}
-
-module.exports = {
-	create,
-	getAll,
-	login,
-	register,
-}
+module.exports = { getAll, getAdminById, createNewAdmin }
