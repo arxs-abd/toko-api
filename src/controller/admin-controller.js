@@ -61,4 +61,4 @@ const update = async (req, res, next) => {
 	})
 }
 
-module.exports = { getAll, getById, create, login, register, update }
+module.exports = { getAll, getById, create, login, register, update, getById }
