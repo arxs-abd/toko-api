@@ -42,4 +42,18 @@ const update = async (req, res, next) => {
 	}
 }
 
-module.exports = { getAll, create, update }
+const remove = async (req, res, next) => {
+	try {
+		const { id } = req.params
+		const data = await productService.remove(id)
+
+		return res.send({
+			status: 'success',
+			data,
+		})
+	} catch (error) {
+		next(error)
+	}
+}
+
+module.exports = { getAll, create, update, remove }

@@ -1,5 +1,26 @@
 const service = require('../services/admin-service')
 
+// AUTH
+const login = async (req, res, next) => {
+	const data = await service.login(req.body)
+
+	return res.send({
+		status: 'success',
+		data,
+	})
+}
+
+const register = async (req, res, next) => {
+	const data = await service.register(req.body)
+
+	return res.send({
+		status: 'success',
+		data,
+	})
+}
+
+// ADMIN
+
 const create = async (req, res, next) => {
 	try {
 		const data = await service.create(req.body)
@@ -21,20 +42,23 @@ const getAll = async (req, res, next) => {
 	})
 }
 
-const getAdminById = (req, res, next) => {
-	const id = adminService.getAdminById()
+const getById = async (req, res, next) => {
+	const { id } = req.params
+	const data = await service.getById(id)
 	return res.send({
 		status: 'success',
-		id,
+		data,
 	})
 }
 
-const createNewAdmin = (req, res, next) => {
-	const newAdmin = adminService.createNewAdmin()
+const update = async (req, res, next) => {
+	const { id } = req.params
+	const data = await service.update(req.body, id)
+
 	return res.send({
 		status: 'success',
-		newAdmin,
+		data,
 	})
 }
 
-module.exports = { getAll, getAdminById, createNewAdmin }
+module.exports = { getAll, getById, create, login, register, update }

@@ -61,9 +61,51 @@ const getAll = async () => {
 	return admins
 }
 
+const getById = async (id) => {
+	// Validate Request
+	if (!id) throw new ResponseError(400, 'ID Ditemukan')
+
+	// Find Admin
+	const admin = await Admin.findById(id)
+	if (!admin) throw new ResponseError(404, 'Admin Tidak Ditemukan')
+
+	return admin
+}
+
+const update = async (body, id) => {
+	// Validate Request
+	const data = validate(validation.updateAdmin, body)
+
+	// Find Admin By ID
+	const admin = await Admin.findById(id)
+	if (!admin) throw new ResponseError(404, 'Admin Tidak Ditemukan')
+
+	// Update
+	await admin.updateOne(data)
+
+	return admin
+}
+
+const remove = async (id) => {
+	// Validate Request
+	if (!id) throw new ResponseError(400, 'ID Ditemukan')
+
+	// Find Admin
+	const admin = await Admin.findById(id)
+	if (!admin) throw new ResponseError(404, 'Admin Tidak Ditemukan')
+
+	// Delete Admin
+	await admin.deleteOne()
+
+	return admin
+}
+
 module.exports = {
 	create,
 	login,
 	register,
 	getAll,
+	getById,
+	update,
+	remove,
 }

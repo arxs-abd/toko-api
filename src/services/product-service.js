@@ -36,7 +36,7 @@ const update = async (body, product_id, admin_id) => {
 		throw new ResponseError(401, 'Bukan Anda Yang Menambahkan Product Ini')
 
 	// Update Product
-	await product.updateOne(body)
+	await product.updateOne(data)
 
 	// Get Updated Product
 	const updatedProduct = await Product.findById(product_id)
@@ -44,8 +44,23 @@ const update = async (body, product_id, admin_id) => {
 	return updatedProduct
 }
 
+const remove = async (id) => {
+	// Validate Request
+	if (!id) throw new ResponseError(400, 'Id Tidak Ditemukan')
+
+	// Find Product
+	const product = await Product.findById(id)
+	if (!product) throw new ResponseError(404, 'Produk Tidak Ditemukan')
+
+	// Delete Product
+	await product.deleteOne()
+
+	return product
+}
+
 module.exports = {
 	getAll,
 	create,
 	update,
+	remove,
 }
