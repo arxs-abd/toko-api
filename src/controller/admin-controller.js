@@ -2,12 +2,18 @@ const service = require('../services/admin-service')
 
 // AUTH
 const login = async (req, res, next) => {
-	const data = await service.login(req.body)
+	try {
+		const data = await service.login(req.body)
 
-	return res.send({
-		status: 'success',
-		data,
-	})
+		// Set Cookie
+		res.cookie('token', data.token)
+		return res.send({
+			status: 'success',
+			data,
+		})
+	} catch (error) {
+		next(error)
+	}
 }
 
 const register = async (req, res, next) => {
