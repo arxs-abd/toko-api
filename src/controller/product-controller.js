@@ -2,7 +2,7 @@ const productService = require('../services/product-service')
 
 const getAll = async (req, res, next) => {
 	try {
-		const data = await productService.getAll()
+		const data = await productService.getAll(req.params)
 		return res.send({
 			status: 'success',
 			data,

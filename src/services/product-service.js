@@ -4,7 +4,7 @@ const { validate } = require('../validation/validation')
 const validation = require('../validation/product-validation')
 const { ResponseError } = require('../errors/response-error')
 
-const getAll = async () => {
+const getAll = async (params) => {
 	const products = await Product.find({})
 
 	return products
