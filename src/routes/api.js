@@ -15,6 +15,7 @@ router.use(authenticate)
 // ROUTER
 // ADMIN
 router.get('/admin', adminController.getAll)
+router.get('/admin:id/product', adminController.getProductByAdmin)
 router.post('/admin', adminController.create)
 router.get('/admin/:id', adminController.getById)
 router.put('/admin/:id', adminController.update)

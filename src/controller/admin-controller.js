@@ -67,4 +67,26 @@ const update = async (req, res, next) => {
 	})
 }
 
-module.exports = { getAll, getById, create, login, register, update, getById }
+const getProductByAdmin = async (req, res, next) => {
+	try {
+		const id = req.user._id
+		const data = await service.getProductByAdmin(id)
+		return res.send({
+			status: 'success',
+			data,
+		})
+	} catch (error) {
+		next(error)
+	}
+}
+
+module.exports = {
+	getAll,
+	getById,
+	create,
+	login,
+	register,
+	update,
+	getById,
+	getProductByAdmin,
+}

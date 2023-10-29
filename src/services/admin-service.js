@@ -5,6 +5,7 @@ const { validate } = require('../validation/validation')
 const validation = require('../validation/admin-validation')
 const Admin = require('../models/admins-model')
 const { ResponseError } = require('../errors/response-error')
+const Product = require('../models/products-model')
 
 const create = async (body) => {
 	// Validate Request
@@ -100,6 +101,14 @@ const remove = async (id) => {
 	return admin
 }
 
+const getProductByAdmin = async (id) => {
+	const product = await Product.find({
+		created_by: id,
+	})
+
+	return product
+}
+
 module.exports = {
 	create,
 	login,
@@ -108,4 +117,5 @@ module.exports = {
 	getById,
 	update,
 	remove,
+	getProductByAdmin,
 }
