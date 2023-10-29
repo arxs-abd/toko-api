@@ -2,7 +2,7 @@ const Admin = require('../models/admins-model')
 
 const authenticate = async (req, res, next) => {
 	// Get Token
-	const token = req.get('Authorization') || req.cookies.token
+	const token = req.get('Authorization').split(' ')[1] || req.cookies.token
 
 	// Check Token Is Existed
 	if (!token)
