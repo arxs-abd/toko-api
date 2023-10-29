@@ -5,7 +5,28 @@ const validation = require('../validation/product-validation')
 const { ResponseError } = require('../errors/response-error')
 
 const getAll = async (params) => {
-	const products = await Product.find({})
+	const { type, order, search } = params
+
+	const filter = {}
+	const sort = {}
+
+	// Check Type Product
+	if (type) {
+		filter.product_type = type
+	}
+
+	// Check Order By
+	if (order) {
+		if (order === 'newest') {
+			sort.created_at = -1
+		}
+	}
+
+	if (search) {
+		filter.name = { $regex: search, $options: 'i' }
+	}
+
+	const products = await Product.find(filter).sort(sort)
 
 	return products
 }
